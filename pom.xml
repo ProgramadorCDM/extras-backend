@@ -12,7 +12,7 @@
     <artifactId>extras-backend</artifactId>
     <version>1.0.0</version>
     <name>extras-backend</name>
-    <description>Proyecto de aplicacion para el calculo de las horas extras.</description>
+    <description>Proyecto de aplicación para el calculo de las horas extras.</description>
 
     <properties>
         <java.version>13</java.version>
@@ -33,6 +33,16 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
