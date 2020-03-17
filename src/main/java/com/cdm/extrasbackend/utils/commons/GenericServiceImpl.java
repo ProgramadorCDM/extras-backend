@@ -24,12 +24,8 @@ public abstract class GenericServiceImpl <T, ID extends Serializable> implements
     @Override
     public T get(ID id) {
         Optional<T> optUser = getDAO().findById(id); // returns java8 optional
-        if (optUser.isPresent()) {
-            return optUser.get();
-        } else {
-            // handle not found, return null or throw
-            return null;
-        }
+        // handle not found, return null or throw
+        return optUser.orElse(null);
 
 
     }
@@ -37,7 +33,7 @@ public abstract class GenericServiceImpl <T, ID extends Serializable> implements
     @Override
     public List<T> getAll() {
         List<T> returnList = new ArrayList<>();
-        getDAO ().findAll().forEach(obj -> returnList.add(obj));
+        getDAO ().findAll().forEach(returnList::add);
         return returnList;
     }
 
