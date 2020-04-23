@@ -35,6 +35,8 @@ public class Registro {
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name = "idProyecto")
     private Proyecto proyecto;
+    @Column
+    private boolean festivo;
 
     public Registro() {
     }
@@ -133,5 +135,13 @@ public class Registro {
 
     public void setProyecto(Proyecto proyecto) {
         this.proyecto = proyecto;
+    }
+
+    public boolean isFestivo() {
+        return festivo;
+    }
+
+    public void setFestivo(boolean festivo) {
+        this.festivo = festivo;
     }
 }

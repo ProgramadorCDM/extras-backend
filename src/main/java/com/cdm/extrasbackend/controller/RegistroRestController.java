@@ -1,7 +1,12 @@
 package com.cdm.extrasbackend.controller;
 
+import com.cdm.extrasbackend.model.Persona;
+import com.cdm.extrasbackend.model.Proyecto;
 import com.cdm.extrasbackend.model.Registro;
+import com.cdm.extrasbackend.services.PersonaServiceAPI;
+import com.cdm.extrasbackend.services.ProyectoServiceAPI;
 import com.cdm.extrasbackend.services.RegistroServiceAPI;
+import com.cdm.extrasbackend.utils.classes.CalculoHoras;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +23,12 @@ public class RegistroRestController {
     @Autowired
     private RegistroServiceAPI registroServiceAPI;
 
+    @Autowired
+    private PersonaServiceAPI personaServiceAPI;
+
+    @Autowired
+    private ProyectoServiceAPI proyectoServiceAPI;
+
     @GetMapping("/all")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Registro> getAll(){
@@ -33,6 +44,18 @@ public class RegistroRestController {
     @PostMapping("/save")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Registro> save (@RequestBody Registro registro){
+        CalculoHoras calculoHoras = new CalculoHoras();
+        calculoHoras.calcularHoras(registro.getHora_entrada(),registro.getHora_salida(),registro.isFestivo());
+        registro.setHora_ordinaria(calculoHoras.getHorasordinarias());
+        registro.setRecargo_nocturno(calculoHoras.getRecargosnocturos());
+        registro.setHora_extra(calculoHoras.getHorasExtrasOrdinarias());
+        registro.setHora_extra_nocturna(calculoHoras.getHorasExtrasNocturnas());
+        registro.setHora_extra_festiva(calculoHoras.getHorasExtrasOrdinariasFestivas());
+        registro.setHora_extra_festiva_nocturna(calculoHoras.getHorasExtrasNocturnasFestivas());
+        Persona persona = personaServiceAPI.get(registro.getPersona().getCedula());
+        registro.setPersona(persona);
+        Proyecto proyecto = proyectoServiceAPI.get(registro.getProyecto().getIdProyecto());
+        registro.setProyecto(proyecto);
         Registro obj = registroServiceAPI.save(registro);
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
