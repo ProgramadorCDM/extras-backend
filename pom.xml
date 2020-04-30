@@ -11,11 +11,12 @@
     <groupId>com.cdm</groupId>
     <artifactId>extras-backend</artifactId>
     <version>1.0.0</version>
+    <packaging>war</packaging>
     <name>extras-backend</name>
     <description>Proyecto de aplicación para el calculo de las horas extras.</description>
 
     <properties>
-        <java.version>13</java.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
@@ -38,7 +39,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
@@ -63,6 +68,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

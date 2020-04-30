@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin({"*"})
 @RestController
 @RequestMapping("/api/registro")
 public class RegistroRestController {
@@ -54,6 +54,9 @@ public class RegistroRestController {
         registro.setHora_extra_festiva_nocturna(calculoHoras.getHorasExtrasNocturnasFestivas());
         Persona persona = personaServiceAPI.get(registro.getPersona().getCedula());
         registro.setPersona(persona);
+        calculoHoras.calcularSueldo(persona.getSalario());
+        registro.setSalario_sin_prestaciones(calculoHoras.getSalarioSinPrestaciones());
+        registro.setSalario_con_prestaciones(calculoHoras.getSalarioConPrestaciones());
         Proyecto proyecto = proyectoServiceAPI.get(registro.getProyecto().getIdProyecto());
         registro.setProyecto(proyecto);
         Registro obj = registroServiceAPI.save(registro);

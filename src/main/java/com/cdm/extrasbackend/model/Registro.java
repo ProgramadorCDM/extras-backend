@@ -37,6 +37,10 @@ public class Registro {
     private Proyecto proyecto;
     @Column
     private boolean festivo;
+    @Column
+    private Double salario_sin_prestaciones;
+    @Column
+    private Double salario_con_prestaciones;
 
     public Registro() {
     }
@@ -143,5 +147,21 @@ public class Registro {
 
     public void setFestivo(boolean festivo) {
         this.festivo = festivo;
+    }
+
+    public Double getSalario_sin_prestaciones() {
+        return salario_sin_prestaciones;
+    }
+
+    public void setSalario_sin_prestaciones(Double salario_sin_prestaciones) {
+        this.salario_sin_prestaciones = salario_sin_prestaciones;
+    }
+
+    public Double getSalario_con_prestaciones() {
+        return salario_con_prestaciones;
+    }
+
+    public void setSalario_con_prestaciones(Double salario_con_prestaciones) {
+        this.salario_con_prestaciones = salario_con_prestaciones;
     }
 }

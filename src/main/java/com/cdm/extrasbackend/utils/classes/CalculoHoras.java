@@ -19,6 +19,9 @@ public class CalculoHoras {
     private double horasExtrasNocturnas = 0;
     private double horasExtrasOrdinariasFestivas = 0;
     private double horasExtrasNocturnasFestivas = 0;
+    private double salarioSinPrestaciones = 0;
+    private double salarioConPrestaciones = 0;
+    private final double prestaciones = 1.22;
     final String formatoHora = "HH:mm:ss";
 
     final LocalTime rn1 = LocalTime.of(21, 0, segundo);
@@ -130,6 +133,22 @@ public class CalculoHoras {
         return rn4;
     }
 
+    public double getSalarioSinPrestaciones() {
+        return salarioSinPrestaciones;
+    }
+
+    public void setSalarioSinPrestaciones(double salarioSinPrestaciones) {
+        this.salarioSinPrestaciones = salarioSinPrestaciones;
+    }
+
+    public double getSalarioConPrestaciones() {
+        return salarioConPrestaciones;
+    }
+
+    public void setSalarioConPrestaciones(double salarioConPrestaciones) {
+        this.salarioConPrestaciones = salarioConPrestaciones;
+    }
+
     public void calcularHoras(LocalTime horaEntrada, LocalTime horaSalida, boolean festivo ) {
         //DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(formatoHora);
         //LocalTime horaEntrada = LocalTime.of(horaIngreso, minutoEntrada, this.segundo);
@@ -180,4 +199,20 @@ public class CalculoHoras {
         }
     }
 
+    public void calcularSueldo(double salario){
+        double salarioBaseHora, salarioMinimo;
+        salarioMinimo = 877803.0;
+        salarioBaseHora = salario/240;
+        salarioSinPrestaciones += horasordinarias*salarioBaseHora;
+        salarioSinPrestaciones += recargosnocturos*salarioBaseHora*1.35;
+        salarioSinPrestaciones += horasExtrasOrdinarias*salarioBaseHora*1.25;
+        salarioSinPrestaciones += horasExtrasNocturnas*salarioBaseHora*1.75;
+        salarioSinPrestaciones += horasExtrasOrdinariasFestivas*salarioBaseHora*2.00;
+        salarioSinPrestaciones += horasExtrasNocturnasFestivas*salarioBaseHora*2.50;
+        salarioConPrestaciones = salarioSinPrestaciones*prestaciones;
+        if (salario <= (2*salarioMinimo)){
+            salarioSinPrestaciones += 3482.00;
+            salarioConPrestaciones += 3482.00;
+        }
+    }
 }
