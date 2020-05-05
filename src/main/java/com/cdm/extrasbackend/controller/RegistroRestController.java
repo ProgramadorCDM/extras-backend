@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin({"*"})
 @RestController
 @RequestMapping("/api/registro")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
 public class RegistroRestController {
 
     @Autowired
@@ -46,6 +46,29 @@ public class RegistroRestController {
     public ResponseEntity<Registro> save (@RequestBody Registro registro){
         CalculoHoras calculoHoras = new CalculoHoras();
         calculoHoras.calcularHoras(registro.getHora_entrada(),registro.getHora_salida(),registro.isFestivo());
+        registro.setHora_ordinaria(calculoHoras.getHorasordinarias());
+        registro.setRecargo_nocturno(calculoHoras.getRecargosnocturos());
+        registro.setHora_extra(calculoHoras.getHorasExtrasOrdinarias());
+        registro.setHora_extra_nocturna(calculoHoras.getHorasExtrasNocturnas());
+        registro.setHora_extra_festiva(calculoHoras.getHorasExtrasOrdinariasFestivas());
+        registro.setHora_extra_festiva_nocturna(calculoHoras.getHorasExtrasNocturnasFestivas());
+        Persona persona = personaServiceAPI.get(registro.getPersona().getCedula());
+        registro.setPersona(persona);
+        calculoHoras.calcularSueldo(persona.getSalario());
+        registro.setSalario_sin_prestaciones(calculoHoras.getSalarioSinPrestaciones());
+        registro.setSalario_con_prestaciones(calculoHoras.getSalarioConPrestaciones());
+        Proyecto proyecto = proyectoServiceAPI.get(registro.getProyecto().getIdProyecto());
+        registro.setProyecto(proyecto);
+        Registro obj = registroServiceAPI.save(registro);
+        return new ResponseEntity<>(obj, HttpStatus.OK);
+    }
+
+    @PostMapping("/segundo/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public ResponseEntity<Registro> segundoRegistro (@PathVariable Long id, @RequestBody Registro registro){
+        CalculoHoras calculoHoras = new CalculoHoras();
+        Registro primerRegistro = registroServiceAPI.get(id);
+        calculoHoras.calcularHorasSegundoRegistro(registro.getHora_entrada(),registro.getHora_salida(),registro.isFestivo(),primerRegistro);
         registro.setHora_ordinaria(calculoHoras.getHorasordinarias());
         registro.setRecargo_nocturno(calculoHoras.getRecargosnocturos());
         registro.setHora_extra(calculoHoras.getHorasExtrasOrdinarias());

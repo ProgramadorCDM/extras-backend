@@ -1,5 +1,7 @@
 package com.cdm.extrasbackend.utils.classes;
 
+import com.cdm.extrasbackend.model.Registro;
+
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -176,17 +178,17 @@ public class CalculoHoras {
                     if((i.isBefore(this.rn4)||i.equals(this.rn4))&&i.isAfter(this.rn3)){
                         this.recargosnocturos += 0.5;
 
-                    }else if(i.isBefore(this.rn2) && (i.isAfter(this.rn1)||(i.equals(this.rn1)))){
+                    }else if((i.isBefore(this.rn2)||i.equals(this.rn2)) && (i.isAfter(this.rn1)||(i.equals(this.rn1)))){
                         this.recargosnocturos += 0.5;
 
                     }else{
                         this.horasordinarias+=0.5;
                     }
                 }else{
-                    if((i.isBefore(this.rn4)||i.equals(this.rn4))&&i.isAfter(this.rn3)){
+                    if((i.isBefore(this.rn4))&&i.isAfter(this.rn3)){
                         this.horasExtrasNocturnas += 0.5;
 
-                    }else if(i.isBefore(this.rn2) && (i.isAfter(this.rn1)||(i.equals(this.rn1)))){
+                    }else if((i.isBefore(this.rn2)||i.equals(this.rn2)) && (i.isAfter(this.rn1)||(i.equals(this.rn1)))){
                         this.horasExtrasNocturnas += 0.5;
 
                     }else{
@@ -199,20 +201,63 @@ public class CalculoHoras {
         }
     }
 
+    public void calcularHorasSegundoRegistro(LocalTime horaEntrada, LocalTime horaSalida, boolean festivo, Registro registro){
+        for (LocalTime i = horaEntrada; (i.isBefore(horaSalida)); i = i.plusMinutes(30)){
+            if(festivo){
+                if((i.equals(this.rn3)&&(this.horasExtrasNocturnasFestivas!=0)&&(this.horasExtrasOrdinariasFestivas!=0))){
+                    break;
+                }else {
+                    if((i.isBefore(this.rn4)||i.equals(this.rn4))&&i.isAfter(this.rn3)){
+                        this.horasExtrasNocturnasFestivas += 0.5;
+
+                    }else if(i.isBefore(this.rn2) && (i.isAfter(this.rn1)||(i.equals(this.rn1)))){
+                        this.horasExtrasNocturnasFestivas += 0.5;
+
+                    }else{
+                        this.horasExtrasOrdinariasFestivas+=0.5;
+                    }
+                }
+            }
+            else{
+                if((i.equals(this.rn3)&&(registro.getRecargo_nocturno()!=0)&&(registro.getHora_ordinaria()!=0))){
+                    break;
+                }else if((this.recargosnocturos+this.horasordinarias+registro.getRecargo_nocturno()+registro.getHora_ordinaria())<8){
+                    if((i.isBefore(this.rn4) ||i.equals(this.rn4))&&i.isAfter(this.rn3)){
+                        this.recargosnocturos += 0.5;
+
+                    }else if((i.isBefore(this.rn2)||i.equals(this.rn2)) && (i.isAfter(this.rn1)||(i.equals(this.rn1)))){
+                        this.recargosnocturos += 0.5;
+
+                    }else{
+                        this.horasordinarias+=0.5;
+                    }
+                }else{
+                    if((i.isBefore(this.rn4))&&i.isAfter(this.rn3)){
+                        this.horasExtrasNocturnas += 0.5;
+
+                    }else if((i.isBefore(this.rn2)||i.equals(this.rn2)) && (i.isAfter(this.rn1)||(i.equals(this.rn1)))){
+                        this.horasExtrasNocturnas += 0.5;
+
+                    }else{
+                        this.horasExtrasOrdinarias+=0.5;
+                    }
+                }
+            }
+
+        }
+    }
+
     public void calcularSueldo(double salario){
-        double salarioBaseHora, salarioMinimo;
-        salarioMinimo = 877803.0;
+        double salarioBaseHora;//, salarioMinimo;
+        //salarioMinimo = 877803.0;
         salarioBaseHora = salario/240;
-        salarioSinPrestaciones += horasordinarias*salarioBaseHora;
-        salarioSinPrestaciones += recargosnocturos*salarioBaseHora*1.35;
+        //salarioSinPrestaciones += horasordinarias*salarioBaseHora;
+        salarioSinPrestaciones += recargosnocturos*salarioBaseHora*0.35;
         salarioSinPrestaciones += horasExtrasOrdinarias*salarioBaseHora*1.25;
         salarioSinPrestaciones += horasExtrasNocturnas*salarioBaseHora*1.75;
         salarioSinPrestaciones += horasExtrasOrdinariasFestivas*salarioBaseHora*2.00;
         salarioSinPrestaciones += horasExtrasNocturnasFestivas*salarioBaseHora*2.50;
         salarioConPrestaciones = salarioSinPrestaciones*prestaciones;
-        if (salario <= (2*salarioMinimo)){
-            salarioSinPrestaciones += 3482.00;
-            salarioConPrestaciones += 3482.00;
-        }
+
     }
 }

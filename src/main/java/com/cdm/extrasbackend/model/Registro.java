@@ -29,10 +29,10 @@ public class Registro {
     private Double hora_extra_festiva;
     @Column
     private Double hora_extra_festiva_nocturna;
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "cedula")
     private Persona persona;
-    @OneToOne(cascade=CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "idProyecto")
     private Proyecto proyecto;
     @Column
