@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The type Registro rest controller.
+ */
 @RestController
 @RequestMapping("/api/registro")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST})
@@ -29,18 +32,35 @@ public class RegistroRestController {
     @Autowired
     private ProyectoServiceAPI proyectoServiceAPI;
 
+    /**
+     * Get all list.
+     *
+     * @return the list
+     */
     @GetMapping("/all")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Registro> getAll(){
         return registroServiceAPI.getAll();
     }
 
+    /**
+     * Find registro.
+     *
+     * @param id the id
+     * @return the registro
+     */
     @GetMapping("/find/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public Registro find (@PathVariable Long id){
         return registroServiceAPI.get(id);
     }
 
+    /**
+     * Save response entity.
+     *
+     * @param registro the registro
+     * @return the response entity
+     */
     @PostMapping("/save")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Registro> save (@RequestBody Registro registro){
@@ -63,6 +83,13 @@ public class RegistroRestController {
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 
+    /**
+     * Segundo registro response entity.
+     *
+     * @param id       the id
+     * @param registro the registro
+     * @return the response entity
+     */
     @PostMapping("/segundo/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<Registro> segundoRegistro (@PathVariable Long id, @RequestBody Registro registro){
@@ -86,6 +113,12 @@ public class RegistroRestController {
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 
+    /**
+     * Delete response entity .
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity <Registro> delete (@PathVariable Long id){

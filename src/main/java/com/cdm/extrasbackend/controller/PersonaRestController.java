@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The type Persona rest controller.
+ */
 @CrossOrigin({"*"})
 @RestController
 @RequestMapping("/api/persona")
@@ -18,18 +21,35 @@ public class PersonaRestController {
     @Autowired
     private PersonaServiceAPI personaServiceAPI;
 
+    /**
+     * Get all list.
+     *
+     * @return the list
+     */
     @GetMapping("/all")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Persona> getAll(){
         return personaServiceAPI.getAll();
     }
 
+    /**
+     * Find persona.
+     *
+     * @param id the id
+     * @return the persona
+     */
     @GetMapping("/find/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public Persona find(@PathVariable String id){
         return personaServiceAPI.get(id);
     }
 
+    /**
+     * Save response entity.
+     *
+     * @param persona the persona
+     * @return the response entity
+     */
     @PostMapping("/save")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Persona> save (@RequestBody Persona persona){
@@ -37,6 +57,12 @@ public class PersonaRestController {
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 
+    /**
+     * Delete response entity .
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity <Persona> delete (@PathVariable String id){

@@ -4,6 +4,9 @@ import com.cdm.extrasbackend.model.Proyecto;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * The interface Proyecto dao api.
+ */
 @Repository
 public interface ProyectoDaoAPI extends CrudRepository <Proyecto, String> {
 }

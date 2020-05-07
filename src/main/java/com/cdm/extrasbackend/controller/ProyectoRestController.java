@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * The type Proyecto rest controller.
+ */
 @CrossOrigin({"*"})
 @RestController
 @RequestMapping("/api/proyecto")
@@ -18,18 +21,35 @@ public class ProyectoRestController {
     @Autowired
     private ProyectoServiceAPI proyectoServiceAPI;
 
+    /**
+     * Get all list.
+     *
+     * @return the list
+     */
     @GetMapping("/all")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Proyecto> getAll(){
         return proyectoServiceAPI.getAll();
     }
 
+    /**
+     * Find proyecto.
+     *
+     * @param id the id
+     * @return the proyecto
+     */
     @GetMapping("/find/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public Proyecto find(@PathVariable String id){
         return proyectoServiceAPI.get(id);
     }
 
+    /**
+     * Save response entity.
+     *
+     * @param proyecto the proyecto
+     * @return the response entity
+     */
     @PostMapping("/save")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Proyecto> save (@RequestBody Proyecto proyecto){
@@ -37,6 +57,12 @@ public class ProyectoRestController {
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 
+    /**
+     * Delete response entity .
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @GetMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity <Proyecto> delete (@PathVariable String id){

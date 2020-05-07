@@ -27,25 +27,49 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * The type Auth controller.
+ */
 @CrossOrigin({"*"})
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+	/**
+	 * The Authentication manager.
+	 */
 	@Autowired
 	AuthenticationManager authenticationManager;
 
+	/**
+	 * The User repository.
+	 */
 	@Autowired
 	UserRepository userRepository;
 
+	/**
+	 * The Role repository.
+	 */
 	@Autowired
 	RoleRepository roleRepository;
 
+	/**
+	 * The Encoder.
+	 */
 	@Autowired
 	PasswordEncoder encoder;
 
+	/**
+	 * The Jwt utils.
+	 */
 	@Autowired
 	JwtUtils jwtUtils;
 
+	/**
+	 * Authenticate user response entity.
+	 *
+	 * @param loginRequest the login request
+	 * @return the response entity
+	 */
 	@PostMapping("/signin")
 	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -67,6 +91,12 @@ public class AuthController {
 												 roles));
 	}
 
+	/**
+	 * Register user response entity.
+	 *
+	 * @param signUpRequest the sign up request
+	 * @return the response entity
+	 */
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
 		if (userRepository.existsByUsername(signUpRequest.getUsername())) {
