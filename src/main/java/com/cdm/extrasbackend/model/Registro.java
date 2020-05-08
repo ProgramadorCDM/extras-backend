@@ -41,6 +41,8 @@ public class Registro {
     private Double salario_sin_prestaciones;
     @Column
     private Double salario_con_prestaciones;
+    @Column
+    private String actividad;
 
     public Registro() {
     }
@@ -163,5 +165,13 @@ public class Registro {
 
     public void setSalario_con_prestaciones(Double salario_con_prestaciones) {
         this.salario_con_prestaciones = salario_con_prestaciones;
+    }
+
+    public String getActividad() {
+        return actividad;
+    }
+
+    public void setActividad(String actividad) {
+        this.actividad = actividad;
     }
 }
