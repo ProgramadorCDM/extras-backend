@@ -27,7 +27,7 @@ public class PersonaRestController {
      * @return the list
      */
     @GetMapping("/all")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Persona> getAll(){
         return personaServiceAPI.getAll();
     }
@@ -39,7 +39,7 @@ public class PersonaRestController {
      * @return the persona
      */
     @GetMapping("/find/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Persona find(@PathVariable String id){
         return personaServiceAPI.get(id);
     }

@@ -27,7 +27,7 @@ public class ProyectoRestController {
      * @return the list
      */
     @GetMapping("/all")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<Proyecto> getAll(){
         return proyectoServiceAPI.getAll();
     }
@@ -39,7 +39,7 @@ public class ProyectoRestController {
      * @return the proyecto
      */
     @GetMapping("/find/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Proyecto find(@PathVariable String id){
         return proyectoServiceAPI.get(id);
     }
