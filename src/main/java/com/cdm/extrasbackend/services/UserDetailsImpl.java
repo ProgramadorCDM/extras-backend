@@ -11,13 +11,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-/**
- *
- * @author Jorge Mina
- * @version 06/05/2020/A
- *
- * The type User details.
- */
 public class UserDetailsImpl implements UserDetails {
 	private static final long serialVersionUID = 1L;
 

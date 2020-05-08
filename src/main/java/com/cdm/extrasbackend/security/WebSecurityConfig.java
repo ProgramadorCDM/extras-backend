@@ -18,13 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
-/**
- *
- * @author Jorge Mina
- * @version 06/05/2020/A
- * Clase que maneja la seguridad web JTW de la api.
- * The type Web security config.
- */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
@@ -32,20 +25,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 		// jsr250Enabled = true,
 		prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	/**
-	 * The User details service.
-	 */
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
 
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
 
-	/**
-	 * Authentication jwt token filter auth token filter.
-	 *
-	 * @return the auth token filter
-	 */
 	@Bean
 	public AuthTokenFilter authenticationJwtTokenFilter() {
 		return new AuthTokenFilter();
@@ -62,11 +47,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
-	/**
-	 * Password encoder password encoder.
-	 *
-	 * @return the password encoder
-	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
