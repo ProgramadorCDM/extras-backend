@@ -29,7 +29,7 @@ public class CalculoHoras {
     final LocalTime rn1 = LocalTime.of(21, 0, segundo);
     final LocalTime rn2 = LocalTime.of(23, 59, segundo);
     final LocalTime rn3 = LocalTime.of(0, 0, segundo);
-    final LocalTime rn4 = LocalTime.of(6, 0, segundo);
+    final LocalTime rn4 = LocalTime.of(5, 59, segundo);
 
     public CalculoHoras() {
     }
