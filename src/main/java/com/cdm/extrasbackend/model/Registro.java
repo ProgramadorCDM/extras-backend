@@ -43,6 +43,8 @@ public class Registro {
     private Double salario_con_prestaciones;
     @Column
     private String actividad;
+    @Column
+    private String users;
 
     public Registro() {
     }
@@ -173,5 +175,13 @@ public class Registro {
 
     public void setActividad(String actividad) {
         this.actividad = actividad;
+    }
+
+    public String getUsers() {
+        return users;
+    }
+
+    public void setUsers(String users) {
+        this.users = users;
     }
 }
