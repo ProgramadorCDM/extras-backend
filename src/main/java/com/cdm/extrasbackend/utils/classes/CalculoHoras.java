@@ -30,7 +30,6 @@ public class CalculoHoras {
     final LocalTime rn2 = LocalTime.of(23, 59, segundo);
     final LocalTime rn3 = LocalTime.of(0, 0, segundo);
     final LocalTime rn4 = LocalTime.of(5, 59, segundo);
-    final LocalTime rn5 = LocalTime.of(6, 0, segundo);
 
     public CalculoHoras() {
     }
@@ -232,10 +231,17 @@ public class CalculoHoras {
                 }
             }
             else{
-                if((i.equals(this.rn3)&&(registro.getRecargo_nocturno()!=0)&&(registro.getHora_ordinaria()!=0))){
+                if((i.equals(this.rn3)
+                        //&&(this.recargosnocturos!=0)&&(this.horasordinarias!=0)
+                )){
                     break;
-                }else if((this.recargosnocturos+this.horasordinarias+registro.getRecargo_nocturno()+registro.getHora_ordinaria())<8){
-                    if((i.isBefore(this.rn4) ||i.equals(this.rn4))&&(i.isAfter(this.rn3)||i.equals(this.rn3))){
+                }else if((
+                        this.recargosnocturos
+                                + this.horasordinarias
+                                + registro.getHora_ordinaria()
+                                + registro.getRecargo_nocturno()
+                )<8){
+                    if((i.isBefore(this.rn4)||i.equals(this.rn4))&&(i.isAfter(this.rn3)||i.equals(this.rn3))){
                         if (horaEntrada.equals(this.rn4)){
                             this.horasordinarias+=0.5;
                         }else {
