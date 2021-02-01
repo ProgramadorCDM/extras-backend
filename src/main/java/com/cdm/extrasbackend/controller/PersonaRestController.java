@@ -24,6 +24,12 @@ public class PersonaRestController {
         return personaServiceAPI.getAll();
     }
 
+    @GetMapping("/all_active")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    public List<Persona> getAllActive(){
+        return personaServiceAPI.findAllPersonas();
+    }
+
     @GetMapping("/find/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public Persona find(@PathVariable String id){

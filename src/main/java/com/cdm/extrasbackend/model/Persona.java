@@ -1,9 +1,12 @@
 package com.cdm.extrasbackend.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "persona")
+@Data
 public class Persona {
     @Id
     private String cedula;
@@ -11,30 +14,11 @@ public class Persona {
     private String nombre;
     @Column
     private Double salario;
+    @Column
+    private Boolean activo;
 
-    public Persona() {}
-
-    public String getCedula() {
-        return cedula;
-    }
-
-    public void setCedula(String id) {
-        this.cedula = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Double getSalario() {
-        return salario;
-    }
-
-    public void setSalario(Double salario) {
-        this.salario = salario;
+    @PrePersist
+    public void setTrueActivo(){
+        this.activo = true;
     }
 }
